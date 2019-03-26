@@ -15,7 +15,7 @@ public class User {
 	
 	public void addVisited(Course course){
 		if(course!=null){
-			visited.add(course);
+			visited.addCourseToTable(course);
 		}
 		
 	}
@@ -25,7 +25,7 @@ public class User {
 	}
 	
 	public void addTaken(Course course){
-		taken.add(course);	
+		taken.addCourseToTable(course);	
 	}
 	
 	public void addEdges(TopicNode topic){
@@ -67,12 +67,12 @@ public class User {
 		
 		CourseTable courses=new CourseTable();
 		
-		courses.add(math);
-		courses.add(biology);
-		courses.add(calculus);
-		courses.add(firstAid);
-		courses.add(python);
-		courses.add(java);
+		courses.addCourseToTable(math);
+		courses.addCourseToTable(biology);
+		courses.addCourseToTable(calculus);
+		courses.addCourseToTable(firstAid);
+		courses.addCourseToTable(python);
+		courses.addCourseToTable(java);
 		
 		python.setPopularity(10);
 		java.setPopularity(1);
@@ -100,8 +100,9 @@ public class User {
 		
 		System.out.println(mike.findInVisisted(math));
 		System.out.println(mike.findInVisisted(python));
-		System.out.println(mike.recommendRandom().getName());
+		
 		System.out.println(mike.getTopicNode(Topic.TECHNOLOGY).recommend(mike).getName());
+		
 		//System.out.println(mike.getTopicNode(Topic.TECHNOLOGY).recommend(mike).getName());
 	}
 
