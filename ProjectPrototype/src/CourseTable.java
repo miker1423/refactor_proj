@@ -71,4 +71,9 @@ public class CourseTable {
 			table[i].sortList();
 		}
 	}
+
+	//fills in a courseTable with a Course List
+    public void fillCourseTableWithList(Course[] coursesList) {
+        for (Course course: coursesList) this.add(course);
+    }
 }
