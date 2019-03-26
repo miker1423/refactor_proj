@@ -5,40 +5,40 @@ public class CourseList {
 	
 	
 	public CourseList(){
-		front=null;
+		this.front=null;
 	}
 	
 	//adds a course to the table
-	public void add(Course course){
+	public void addCourse(Course course){
 		CourseNode node=new CourseNode(course);
-		if(front!=null){
-			node.setNext(front);
+		if(this.front!=null){
+			node.setNext(this.front);
 		}
-		front=node;
+		this.front=node;
 		
 		
 	}
 	
 	//finds if there is or not any node with the given course inside
-	public boolean find(Course course){
-		CourseNode myNode=front;
-		while(myNode!=null){
-			if(myNode.getCourse()==course){
+	public boolean findCourse(Course course){
+		CourseNode current=this.front;
+		while(current!=null){
+			if(current.getCourse()==course){
 				return true;
 			}
-			myNode=myNode.getNext();
+			current=current.getNext();
 		}
 		return false;
 	}
 	
-	//returns the front of the node 
+	//returns the front node 
 	public CourseNode getFront(){
-		return front;
+		return this.front;
 	}
 	
 	//sorts the sortLIst based on the popularity of the course
 	public void sortList(){
-		Course[] courses=createArray();
+		Course[] courses=createArrayFromList();
 		insertionSort(courses);
 		//Arrays.sort(courses);
 		recreateList(courses);
@@ -46,37 +46,54 @@ public class CourseList {
 	}
 	
 	//creates an array based on the elements of the list, helper method
-	private Course[] createArray(){
-		int count=0; //counts the number of elements in the list
-		CourseNode node=front;
+	private Course[] createArrayFromList(){
 		
-		//count the element on the list
-		while(node!=null){
+		int count=listLength(); 
+		
+		Course[] courses=generateArrayWithLength(count);
+
+		return courses;
+	}
+
+	private int listLength(){
+		CourseNode current=this.front;
+		int count=0;
+		
+		while(current!=null){
 			count++;
-			node=node.getNext();
+			current=current.getNext();
 		}
-		
-		Course[] courses=new Course[count]; //creates the array with the elements on the list
-		node=front;
+
+		return count;
+	}
+
+	private Course[] generateArrayWithLength(int length){
+
+		Course[] courses=new Course[length]; //creates the array with the elements on the list
+		CourseNode current=this.front;
+
 		//insert the elements
 		for(int i=0;i<courses.length;i++){
-			courses[i]=node.getCourse();
-			node=node.getNext();
+			courses[i]=current.getCourse();
+			current=current.getNext();
 		}
+
 		return courses;
 	}
 	
-	//recreates the list based on the array, helper method
+	//recreates the list based on an array, helper method
 	private void recreateList(Course[] courses){
-		CourseNode node=new CourseNode(courses[0]);
+
+		CourseNode current=new CourseNode(courses[0]);
+
 		for(int i=0;i<courses.length;i++){
 			
 			if(i==0){
-				front=node;
+				this.front=current;
 			}
 			else{
-				node.setNext(new CourseNode(courses[i]));
-				node=node.getNext();
+				current.setNext(new CourseNode(courses[i]));
+				current=current.getNext();
 			}
 		}
 	}
