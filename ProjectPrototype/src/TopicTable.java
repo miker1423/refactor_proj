@@ -1,65 +1,69 @@
 import java.util.Random;
 public class TopicTable {
 	
-	TopicEdge[] edges;
+	TopicEdge[] topicEdges;
 	
 	public TopicTable(){
-		edges=new TopicEdge[Topic.values().length]; //number of elements in the enum
+		topicEdges = new TopicEdge[Topic.values().length]; //number of elements in the enum
 	}
 	
 	public void addTopic(TopicNode topic){
-		TopicEdge edge=new TopicEdge(topic);
-		int index=CourseTable.hashF(topic.getTopic());
-		edges[index]=edge;
+		TopicEdge edge = new TopicEdge(topic);
+		int index = CourseTable.hashF(topic.getTopic());
+		topicEdges[index]=edge;
 	}
 	
 	public int getTopicEdgeValue(Topic topic){
-		int index=CourseTable.hashF(topic);
-		return edges[index].getWeight();
+		int index = CourseTable.hashF(topic);
+		return topicEdges[index].getWeight();
 	}
 	
 	public void setTopicEdgeValue(Topic topic, int weight){
-		int index=CourseTable.hashF(topic);
-		edges[index].setWeight(weight);
+		int index = CourseTable.hashF(topic);
+		topicEdges[index].setWeight(weight);
 	}
 	
 	public TopicNode getTopicNode(Topic topic){
-		int index=CourseTable.hashF(topic);
-		return edges[index].getTopicNode();
+		int index = CourseTable.hashF(topic);
+		return topicEdges[index].getTopicNode();
 	}
 	
 	public TopicNode maxWeight(){
-		TopicEdge max=edges[0];
-		for(int i=0;i<edges.length;i++){
-			if(max.getWeight()<edges[i].getWeight()){
-				max=edges[i];
+		TopicEdge max = topicEdges[0];
+
+		for(TopicEdge edge : topicEdges){
+			if(max.getWeight() < edge.getWeight()){
+				max = edge;
 			}
 		}
+
 		return max.getTopicNode();
 	}
 	
 	public TopicNode randomByPopularity(){
-		int sum=0;
-		int number;
-		Random random=new Random();
+		int upperLimit = getUpperLimit();
+		Random random = new Random();
+		int number = random.nextInt(upperLimit);
 		
-		for(int i=0; i<edges.length;i++){
-			sum+=edges[i].getWeight();
-		}
-		
-		number=random.nextInt(sum+1);
-		sum=0;
-		
-		for(int i=0; i<edges.length;i++){
-			sum+=edges[i].getWeight();
-			if(number<=sum){
-				return edges[i].getTopicNode();
+		int sum = 0;
+		TopicNode result = null;
+		for(TopicEdge edge : topicEdges){
+			sum += edge.getWeight();
+			if(number <= sum){
+				result = edge.getTopicNode();
+				break;
 			}
 		}
-		
 
-		return null;
+		return result;
+	}
+
+	private int getUpperLimit(){
+		int sum = 0;
+		for(TopicEdge edge : topicEdges)
+			sum += edge.getWeight();
 		
+		return sum + 1;
 	}
 
 }
